@@ -17,6 +17,16 @@ namespace Main.POCO
         //public string WeaponName { get; set; }
         public Int32 NumberOfDeaths { get => this._numberOfDeaths; private set => this._numberOfDeaths = value; }
 
+        public Player()
+        {
+
+        }
+
+        public Player(string name)
+        {
+            this.Name = name;
+        }
+
         public void IncrementKills()
         {
             this._numberOfKills++;

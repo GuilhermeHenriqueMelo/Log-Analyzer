@@ -15,6 +15,7 @@ namespace Main.Analyzers
         private static Int32 _GAME_NUMBER = 1;
 
         public Game CurrentGame { get => this._currentGame; private set => this._currentGame = value; }
+        public string[] CurrentGameInfo { get => this._currentGameInfo; private set => this._currentGameInfo = value; }
 
 
         public void GenerateGameResult()
@@ -28,10 +29,10 @@ namespace Main.Analyzers
             this._currentGameInfo = gameSectionInfo;
         }
 
-        private Game ConstructGame()// I need to Fix this!!!
+        private Game ConstructGame()
         {
             Game game = new Game();
-            Dictionary<string, Player> gameScore = new Dictionary<string, Player>();//I can't use a simple Integer; I need to user the Player class itself!
+            Dictionary<string, Player> gameScore = new Dictionary<string, Player>();
 
             CreateGameName(game);
 
@@ -43,8 +44,7 @@ namespace Main.Analyzers
 
                     if (!gameScore.ContainsKey(name))
                     {
-                        gameScore.Add(name, new Player());//Use a Constructor to set the name of the Player automatically.
-                        gameScore[name].Name = name;
+                        gameScore.Add(name, new Player(name));
                     }
                     continue;
                 }
@@ -94,16 +94,14 @@ namespace Main.Analyzers
             {
                 gameScore[killerName].IncrementKills();
 
-                gameScore.Add(killedName, new Player());
-                gameScore[killedName].Name = killedName;
+                gameScore.Add(killedName, new Player(killedName));
                 gameScore[killedName].IncrementDeaths();
             }
             else if (!gameScore.ContainsKey(killerName) && gameScore.ContainsKey(killedName))
             {
                 gameScore[killedName].IncrementDeaths();
 
-                gameScore.Add(killerName, new Player());
-                gameScore[killerName].Name = killerName;
+                gameScore.Add(killerName, new Player(killerName));
                 gameScore[killerName].IncrementKills();
             }
         }

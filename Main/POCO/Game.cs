@@ -26,7 +26,7 @@ namespace Main.POCO
 
             private set
             {
-
+                
             }
         }
 
@@ -39,6 +39,7 @@ namespace Main.POCO
 
             private set
             {
+                this._totalOfKills = value;
                 //this._totalOfKills = this._listOfPlayers.Sum(p => p.NumberOfKills);//Need to test this functionality to see if it's working.
             }
         }
@@ -51,6 +52,7 @@ namespace Main.POCO
 
             private set
             {
+                this._totalOfDeaths = value;
                 //this._totalOfDeaths = this._listOfPlayers.Sum(p => p.NumberOfDeaths);//Need to test this functionality to see if it's working.
             }
         }
@@ -74,7 +76,7 @@ namespace Main.POCO
         {
             if (p == null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException("The Player cannot be a NULL reference");
             }
 
             if (!this._listOfPlayers.Contains(p))
@@ -90,7 +92,7 @@ namespace Main.POCO
                 Name = "game_" + number;
             } else
             {
-                throw new ArgumentException();
+                throw new ArgumentException("The Game object already has a name");
             }
         }
 
