@@ -43,7 +43,6 @@ namespace Main.Analyzers
                 if (line.Contains("InitGame:"))
                 {
                     auxList = new List<string>();
-                    //auxList.Add(line);
 
                 } else if (line.Contains("ShutdownGame:"))
                 {
@@ -51,10 +50,7 @@ namespace Main.Analyzers
                     list.Add(auxList.ToArray());
                     auxList = null;
 
-                    continue;
-                }
-
-                if (!(auxList == null))
+                } else if (!(auxList == null))
                 {
                     auxList.Add(line);
                 }

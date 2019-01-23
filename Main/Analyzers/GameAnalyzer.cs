@@ -34,45 +34,52 @@ namespace Main.Analyzers
             Game game = new Game();
             Dictionary<string, Player> gameScore = new Dictionary<string, Player>();
 
-            CreateGameName(game);
-
-            foreach (string line in this._currentGameInfo)
+            try
             {
-                if (IsPlayerInfo(line))
-                {
-                    string name = GetPlayerNameFromClientUser(line);//Problem!
+                CreateGameName(game);
 
-                    if (!gameScore.ContainsKey(name))
-                    {
-                        gameScore.Add(name, new Player(name));
-                    }
-                    continue;
-                }
-
-                if (IsKillInfo(line))
+                foreach (string line in this._currentGameInfo)
                 {
-                    if (IsSuicide(line))
+                    if (IsPlayerInfo(line))
                     {
-                        SetSuicidalScore(gameScore, line);
+                        string name = GetPlayerNameFromClientUser(line);//Problem!
+
+                        if (!gameScore.ContainsKey(name))
+                        {
+                            gameScore.Add(name, new Player(name));
+                        }
                         continue;
                     }
 
-                    string[] killCount = GetKillCount(line);//Need to find a better name for the Method
+                    if (IsKillInfo(line))
+                    {
+                        if (IsSuicide(line))
+                        {
+                            SetSuicidalScore(gameScore, line);
+                            continue;
+                        }
 
-                    string killerName = killCount.First();
-                    string killedName = killCount.Last();
+                        string[] killCount = GetKillCount(line);//Need to find a better name for the Method
 
-                    SetPlayersScore(gameScore, killerName, killedName);
+                        string killerName = killCount.First();
+                        string killedName = killCount.Last();
+
+                        SetPlayersScore(gameScore, killerName, killedName);
+                    }
                 }
-            }
 
-            foreach (string key in gameScore.Keys)
+                foreach (string key in gameScore.Keys)
+                {
+                    game.AddPlayer(gameScore[key]);
+                }
+
+                game.SetTotalOfKills();
+                game.SetTotalOfDeaths();
+            }
+            catch (Exception ex)
             {
-                game.AddPlayer(gameScore[key]);
+                Console.WriteLine(ex.Message);
             }
-
-            game.SetTotalOfKills();
-            game.SetTotalOfDeaths();
 
             return game;
         }

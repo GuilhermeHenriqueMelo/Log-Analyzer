@@ -35,12 +35,22 @@ namespace Main
             //string s = JsonConvert.SerializeObject(g, Formatting.Indented);
 
             //Console.WriteLine(s);#Test
-            var path = ConfigurationManager.AppSettings["arquivoLog"];
-            var log = Reader.ReadFile(path);
+            try
+            {
+                var path = ConfigurationManager.AppSettings["logFile"];
+                var log = Reader.ReadFile(path);
 
-            var list = BeginAnalysis(log);
+                var list = BeginAnalysis(log);
 
-            PrintGameSection(list);
+                PrintGameSection(list);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            Console.WriteLine("Press any key to close the program...");
+            Console.ReadLine();
         }
 
         private static void PrintGameSection(List<Game> list)
